@@ -1,0 +1,22 @@
+{
+	"name": "sellastica/communication",
+	"type": "project",
+	"homepage": "https://github.com/sellastica/communication",
+	"license": "proprietary",
+	"authors": [
+		{
+			"name": "Tomáš Krejčí",
+			"homepage": "http://www.sellastica.com"
+		}
+	],
+	"require": {
+		"php": ">=7.1"
+	},
+	"require-dev": {
+	},
+	"autoload": {
+		"psr-4": {
+			"Sellastica\\Communication\\": "src/"
+		}
+	}
+}

@@ -3,8 +3,18 @@ namespace Sellastica\Communication;
 
 class Response implements IResponse
 {
+	const IGNORED = -1,
+		SKIPPED = 0,
+		UPDATED = 200,
+		CREATED = 201,
+		REMOVED = 204,
+		BAD_REQUEST = 400,
+		NOT_FOUND = 404,
+		UNPROCESSABLE_ENTITY = 422,
+		INTERNAL_SERVER_ERROR = 500;
+
 	/** @var int */
-	private $statusCode;
+	private $statusCode = 200;
 	/** @var string|null */
 	private $description;
 	/** @var array */
@@ -128,30 +138,22 @@ class Response implements IResponse
 	}
 
 	/**
-	 * @param string|null $error
-	 * @return IResponse
+	 * @return Response
 	 */
-	public static function notFound(string $error = null): IResponse
+	public static function ignored(): Response
 	{
-		return static::error($error, 404);
+		return new static(self::IGNORED);
 	}
 
 	/**
-	 * @param string|null $error
-	 * @return IResponse
+	 * @param string|null $description
+	 * @return Response
 	 */
-	public static function badRequest(string $error = null): IResponse
+	public static function skipped(string $description = null): Response
 	{
-		return static::error($error, 400);
-	}
-
-	/**
-	 * @param string|null $error
-	 * @return IResponse
-	 */
-	public static function unprocessableEntity(string $error = null): IResponse
-	{
-		return static::error($error, 422);
+		$response = new static(self::SKIPPED);
+		$response->setDescription($description);
+		return $response;
 	}
 
 	/**
@@ -166,17 +168,61 @@ class Response implements IResponse
 	/**
 	 * @return static
 	 */
+	public static function modified(): Response
+	{
+		return new static(200);
+	}
+
+	/**
+	 * @return static
+	 */
 	public static function created(): Response
 	{
 		return new static(201);
 	}
 
 	/**
-	 * @return static
+	 * @return Response
 	 */
-	public static function modified(): Response
+	public static function removed(): Response
 	{
-		return new static(200);
+		return new static(self::REMOVED);
+	}
+
+	/**
+	 * @param string|null $error
+	 * @return IResponse
+	 */
+	public static function badRequest(string $error = null): IResponse
+	{
+		return static::error($error, self::BAD_REQUEST);
+	}
+
+	/**
+	 * @param string|null $error
+	 * @return IResponse
+	 */
+	public static function notFound(string $error = null): IResponse
+	{
+		return static::error($error, self::NOT_FOUND);
+	}
+
+	/**
+	 * @param string|null $error
+	 * @return IResponse
+	 */
+	public static function unprocessableEntity(string $error = null): IResponse
+	{
+		return static::error($error, self::UNPROCESSABLE_ENTITY);
+	}
+
+	/**
+	 * @param string|null $error
+	 * @return IResponse
+	 */
+	public static function internalServerError(string $error = null): IResponse
+	{
+		return static::error($error, self::INTERNAL_SERVER_ERROR);
 	}
 
 	/**

@@ -19,6 +19,8 @@ class Response implements IResponse
 	private $description;
 	/** @var array */
 	private $errors = [];
+	/** @var \DateTime Response creation time */
+	private $timestamp;
 
 
 	/**
@@ -27,6 +29,7 @@ class Response implements IResponse
 	public function __construct(int $statusCode = 200)
 	{
 		$this->statusCode = $statusCode;
+		$this->timestamp = new \DateTime();
 	}
 
 	/**
@@ -45,6 +48,14 @@ class Response implements IResponse
 	{
 		$this->statusCode = $statusCode;
 		return $this;
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getTimestamp(): \DateTime
+	{
+		return $this->timestamp;
 	}
 
 	/**

@@ -77,7 +77,7 @@ class Response implements IResponse
 
 	/**
 	 * @param null|string $description
-	 * @return Response
+	 * @return $this
 	 */
 	public function setDescription(?string $description)
 	{
@@ -111,7 +111,7 @@ class Response implements IResponse
 
 	/**
 	 * @param string $error
-	 * @return Response
+	 * @return $this
 	 */
 	public function addError(string $error)
 	{
